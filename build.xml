@@ -1,0 +1,149 @@
+<project name="tw-commons-ddd" default="build">
+
+    <property environment="env"/>
+    <property name="app.name" value="${ant.project.name}"/>
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="lib/tools/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
+    <!-- Source Directories -->
+    <property name="main.src.dir" value="${basedir}/src/main/java"/>
+    <property name="unit.src.dir" value="${basedir}/src/unit/java"/>
+
+    <property name="lib.dir" value="${basedir}/lib"/>
+
+    <property name="env.CRUISE_PIPELINE_LABEL" value="dev"/>
+    <property name="build.label" value="${env.CRUISE_PIPELINE_LABEL}"/>
+
+    <!-- Output Directories -->
+    <property name="target.dir" value="${basedir}/target"/>
+    <property name="classes.dir" value="${target.dir}/classes"/>
+    <property name="dist.dir" value="${target.dir}/dist"/>
+    <property name="reports.dir" value="${target.dir}/reports"/>
+
+    <!-- Output Files -->
+    <property name="main.jar" value="${dist.dir}/${app.name}-${build.label}.jar"/>
+    <property name="unit.jar" value="${target.dir}/${app.name}-unit.jar"/>
+
+    <!-- Paths -->
+    <path id="test.classpath">
+        <fileset dir="${lib.dir}/tools">
+            <include name="junit-4.5.jar"/>
+            <include name="mockito-all-1.7.jar"/>
+        </fileset>
+    </path>
+
+    <path id="main.build.classpath">
+        <fileset dir="${lib.dir}/build" includes="*.jar"/>
+    </path>
+
+    <path id="unit.build.classpath">
+    	<pathelement location="${main.jar}"/>
+        <path refid="main.build.classpath"/>
+        <path refid="test.classpath"/>
+    </path>
+
+    <path id="unit.runtime.classpath">
+        <path refid="unit.build.classpath"/>
+        <pathelement location="${unit.jar}"/>
+    </path>
+
+    <!-- MacroDefs -->
+    <macrodef name="compileToJar">
+        <attribute name="srcdir"/>
+        <attribute name="destfile"/>
+        <attribute name="classpathref"/>
+        <sequential>
+            <outofdate>
+                <sourcefiles>
+                    <pathelement path="build.xml"/>
+                    <fileset dir="@{srcdir}"/>
+                </sourcefiles>
+                <targetfiles path="@{destfile}"/>
+                <sequential>
+                    <mkdir dir="${classes.dir}"/>
+                    <javac srcdir="@{srcdir}" destdir="${classes.dir}"
+                            classpathref="@{classpathref}" source="1.6"
+                            target="1.6" debug="true"
+                            includeantruntime="false"/>
+                    <jar destfile="@{destfile}" basedir="${classes.dir}">
+                        <manifest>
+                            <attribute name="Build-Label"
+                                    value="${build.label}"/>
+                        </manifest>
+                    </jar>
+                    <delete dir="${classes.dir}"/>
+                </sequential>
+            </outofdate>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="testAndReport">
+        <attribute name="type"/>
+        <attribute name="srcdir"/>
+        <attribute name="classpathref"/>
+        <sequential>
+            <mkdir dir="${reports.dir}/@{type}"/>
+            <junit printsummary="yes" fork="true" haltonerror="false"
+                    haltonfailure="false" forkmode="once">
+                <classpath>
+                    <path refid="@{classpathref}"/>
+                </classpath>
+                <formatter type="xml"/>
+
+                <sysproperty key="webdriver.class" value="${webdriver.class}"/>
+                <sysproperty key="application.url" value="${application.url}"/>
+
+                <batchtest todir="${reports.dir}/@{type}"
+                        failureproperty="@{type}.test.failed">
+                    <fileset dir="@{srcdir}">
+                        <include name="**/*Test.java"/>
+                    </fileset>
+                </batchtest>
+            </junit>
+
+            <mkdir dir="${reports.dir}/@{type}-html"/>
+
+            <junitreport todir="${reports.dir}/@{type}-html">
+                <fileset dir="${reports.dir}/@{type}">
+                    <include name="TEST-*.xml"/>
+                </fileset>
+                <report format="frames" todir="${reports.dir}/@{type}-html"/>
+            </junitreport>
+
+            <fail if="@{type}.test.failed" message="@{type} tests failed"/>
+        </sequential>
+    </macrodef>
+
+    <!-- Targets -->
+    <target name="clean">
+        <delete dir="${target.dir}"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="${dist.dir}"/>
+        <compileToJar srcdir="${main.src.dir}"
+                destfile="${main.jar}"
+                classpathref="main.build.classpath"/>
+    </target>
+
+    <target name="unit-jar" depends="jar">
+        <compileToJar srcdir="${unit.src.dir}"
+                destfile="${unit.jar}"
+                classpathref="unit.build.classpath"/>
+    </target>
+
+    <target name="unit-test" depends="unit-jar" description="Run unit tests">
+    	<testAndReport type="unit" srcdir="${unit.src.dir}"
+                classpathref="unit.runtime.classpath"/>
+    </target>
+
+    <!-- Helpers/Wrappers -->
+    <target name="build" depends="unit-test, jar"
+            description="Produce all artifacts"/>
+    <target name="rebuild" depends="clean, build"
+            description="Clean and build"/>
+</project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/unit/java"/>
+	<classpathentry kind="lib" path="lib/tools/ant-contrib-1.0b3.jar"/>
+	<classpathentry kind="lib" path="lib/tools/junit-4.5.jar"/>
+	<classpathentry kind="lib" path="lib/tools/mockito-all-1.7.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/build/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/build/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/build/hibernate3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
