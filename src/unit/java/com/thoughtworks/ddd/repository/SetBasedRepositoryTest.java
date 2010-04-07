@@ -1,4 +1,4 @@
-package com.thoughtworks.repository;
+package com.thoughtworks.ddd.repository;
 
 import static junit.framework.Assert.*;
 import static org.mockito.Matchers.*;
@@ -15,8 +15,11 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.thoughtworks.specification.MatchAllSpecification;
-import com.thoughtworks.specification.Specification;
+import com.thoughtworks.ddd.repository.NonUniqueObjectSelectedException;
+import com.thoughtworks.ddd.repository.NullObjectAddedException;
+import com.thoughtworks.ddd.repository.SetBasedRepository;
+import com.thoughtworks.ddd.specification.MatchAllSpecification;
+import com.thoughtworks.ddd.specification.Specification;
 
 @SuppressWarnings("unchecked")
 public class SetBasedRepositoryTest {

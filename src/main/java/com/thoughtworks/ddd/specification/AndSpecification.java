@@ -1,4 +1,4 @@
-package com.thoughtworks.specification;
+package com.thoughtworks.ddd.specification;
 
 import java.util.ArrayList;
 import java.util.Arrays;

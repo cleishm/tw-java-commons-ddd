@@ -1,4 +1,4 @@
-package com.thoughtworks.hibernate;
+package com.thoughtworks.ddd.hibernate;
 
 import static junit.framework.Assert.*;
 import static org.mockito.Matchers.*;
@@ -19,10 +19,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-import com.thoughtworks.repository.NonUniqueObjectSelectedException;
-import com.thoughtworks.repository.NullObjectAddedException;
-import com.thoughtworks.specification.OrderComparator;
-import com.thoughtworks.specification.Specification;
+import com.thoughtworks.ddd.hibernate.HibernateRepository;
+import com.thoughtworks.ddd.repository.NonUniqueObjectSelectedException;
+import com.thoughtworks.ddd.repository.NullObjectAddedException;
+import com.thoughtworks.ddd.specification.OrderComparator;
+import com.thoughtworks.ddd.specification.Specification;
 
 public class HibernateRepositoryTest {
     private Session mockSession;

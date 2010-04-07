@@ -1,4 +1,4 @@
-package com.thoughtworks.hibernate;
+package com.thoughtworks.ddd.hibernate;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
@@ -13,10 +13,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 
-import com.thoughtworks.repository.NonUniqueObjectSelectedException;
-import com.thoughtworks.repository.NullObjectAddedException;
-import com.thoughtworks.specification.OrderComparator;
-import com.thoughtworks.specification.Specification;
+import com.thoughtworks.ddd.repository.NonUniqueObjectSelectedException;
+import com.thoughtworks.ddd.repository.NullObjectAddedException;
+import com.thoughtworks.ddd.specification.OrderComparator;
+import com.thoughtworks.ddd.specification.Specification;
 
 @SuppressWarnings("unchecked")
 public abstract class HibernateRepository<T> {

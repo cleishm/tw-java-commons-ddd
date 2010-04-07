@@ -1,4 +1,4 @@
-package com.thoughtworks.repository;
+package com.thoughtworks.ddd.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.thoughtworks.specification.Specification;
+import com.thoughtworks.ddd.specification.Specification;
 
 public class SetBasedRepository<T> {
     private final Set<T> objectSet;

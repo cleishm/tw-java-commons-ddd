@@ -1,4 +1,4 @@
-package com.thoughtworks.specification;
+package com.thoughtworks.ddd.specification;
 
 import org.hibernate.Criteria;
 

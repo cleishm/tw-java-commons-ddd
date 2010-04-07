@@ -1,4 +1,4 @@
-package com.thoughtworks.repository;
+package com.thoughtworks.ddd.repository;
 
 @SuppressWarnings("serial")
 public class NonUniqueObjectSelectedException extends Exception {

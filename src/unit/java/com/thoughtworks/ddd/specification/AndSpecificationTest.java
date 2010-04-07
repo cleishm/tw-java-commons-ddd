@@ -1,4 +1,4 @@
-package com.thoughtworks.specification;
+package com.thoughtworks.ddd.specification;
 
 import static junit.framework.Assert.*;
 import static org.mockito.Matchers.*;
@@ -13,6 +13,9 @@ import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.junit.Test;
+
+import com.thoughtworks.ddd.specification.AndSpecification;
+import com.thoughtworks.ddd.specification.Specification;
 
 @SuppressWarnings("unchecked")
 public class AndSpecificationTest {
